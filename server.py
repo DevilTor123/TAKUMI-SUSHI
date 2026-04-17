@@ -143,6 +143,13 @@ def init_db():
     print(f"✅ Database initialized: {DB_PATH}")
 
 # ========== UTILITY ==========
+@app.route("/")
+def home():
+    return """
+    <h1>🍣 TAKUMI SUSHI</h1>
+    <p>API ทำงานแล้ว</p>
+    <a href='/api/menu'>ดูเมนู</a>
+    """
 
 def row_to_dict(row):
     """แปลง sqlite3.Row → dict"""
