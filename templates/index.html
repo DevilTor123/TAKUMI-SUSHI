@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>匠 TAKUMI SUSHI — ซูชิแท้จากใจช่าง</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Noto Serif JP + Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Sarabun:wght@300;400;600&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/script.js"></script>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="logo-kanji">匠</span>
+    <span class="logo-text">TAKUMI SUSHI</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">หน้าแรก</a></li>
+    <li><a href="#" onclick="showPage('menu')" class="nav-link" data-page="menu">เมนู</a></li>
+    <li><a href="#" onclick="showPage('checkout')" class="nav-link" data-page="checkout">ชำระเงิน</a></li>
+    <li><a href="#" onclick="showPage('admin-login')" class="nav-link" data-page="admin">แอดมิน</a></li>
+  </ul>
+  <button class="cart-btn" onclick="toggleCart()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ===== CART SIDEBAR ===== -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>🛒 ตะกร้าสินค้า</h2>
+    <button onclick="toggleCart()" class="close-btn">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="empty-cart">ยังไม่มีสินค้าในตะกร้า</p>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      ยอดรวม: <strong id="cartTotal">฿0</strong>
+    </div>
+    <button class="btn-checkout" onclick="showPage('checkout'); toggleCart()">ดำเนินการชำระเงิน</button>
+  </div>
+</aside>
+
+<!-- ===== TOAST NOTIFICATION ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== PAGE: HOME ===== -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-pattern"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-sub">ประสบการณ์ซูชิแท้ สไตล์ญี่ปุ่น</p>
+      <h1 class="hero-title">
+        <span class="kanji-big">匠</span>
+        <span>TAKUMI<br/>SUSHI</span>
+      </h1>
+      <p class="hero-desc">วัตถุดิบสดใหม่ทุกวัน · ฝีมือช่างชาวญี่ปุ่น · ส่งตรงถึงบ้านคุณ</p>
+      <button class="btn-primary" onclick="showPage('menu')">ดูเมนูทั้งหมด →</button>
+    </div>
+    <div class="hero-deco">
+      <div class="deco-circle c1"></div>
+      <div class="deco-circle c2"></div>
+      <div class="deco-circle c3"></div>
+    </div>
+  </section>
+
+  <!-- Featured Menu -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">おすすめ</span>
+        <h2>เมนูแนะนำ</h2>
+        <p>คัดสรรเมนูพิเศษที่ลูกค้าชื่นชอบ</p>
+      </div>
+      <div class="menu-grid" id="featuredMenu"></div>
+      <div style="text-align:center;margin-top:2.5rem">
+        <button class="btn-secondary" onclick="showPage('menu')">ดูเมนูทั้งหมด</button>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+
+<!-- ===== PAGE: MENU ===== -->
+<div id="page-menu" class="page">
+  <div class="page-header">
+    <div class="container">
+      <span class="section-tag">メニュー</span>
+      <h1>เมนูซูชิ</h1>
+      <p>เลือกสั่งได้เลย · จัดส่งถึงบ้าน</p>
+    </div>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="container">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" onclick="filterMenu('all', this)">ทั้งหมด</button>
+      <button class="filter-btn" onclick="filterMenu('nigiri', this)">นิกิริ</button>
+      <button class="filter-btn" onclick="filterMenu('maki', this)">มากิ</button>
+      <button class="filter-btn" onclick="filterMenu('sashimi', this)">ซาชิมิ</button>
+      <button class="filter-btn" onclick="filterMenu('special', this)">พิเศษ</button>
+    </div>
+    <div class="menu-grid" id="fullMenu"></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: CHECKOUT ===== -->
+<div id="page-checkout" class="page">
+  <div class="page-header">
+    <div class="container">
+      <span class="section-tag">お会計</span>
+      <h1>ชำระเงิน</h1>
+    </div>
+  </div>
+  <div class="container checkout-grid">
+    <!-- Order Summary -->
+    <div class="checkout-summary">
+      <h3>สรุปคำสั่งซื้อ</h3>
+      <div id="checkoutItems" class="checkout-items-list"></div>
+      <div class="checkout-totals">
+        <div class="total-row"><span>ราคาสินค้า</span><span id="subtotal">฿0</span></div>
+        <div class="total-row"><span>ค่าจัดส่ง</span><span>฿50</span></div>
+        <div class="total-row grand"><span>ยอดรวมทั้งหมด</span><span id="grandTotal">฿50</span></div>
+      </div>
+    </div>
+    <!-- Form -->
+    <div class="checkout-form-box">
+      <h3>ข้อมูลการจัดส่ง</h3>
+      <div class="form-group">
+        <label>ชื่อ-นามสกุล</label>
+        <input type="text" id="co-name" placeholder="กรอกชื่อ-นามสกุล" />
+      </div>
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์</label>
+        <input type="tel" id="co-phone" placeholder="0XX-XXX-XXXX" />
+      </div>
+      <div class="form-group">
+        <label>ที่อยู่จัดส่ง</label>
+        <textarea id="co-address" placeholder="กรอกที่อยู่จัดส่ง" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>หมายเหตุ</label>
+        <input type="text" id="co-note" placeholder="เช่น ไม่ใส่วาซาบิ" />
+      </div>
+      <div class="payment-methods">
+        <h4>วิธีชำระเงิน</h4>
+        <label class="radio-card active-radio" id="pm1">
+          <input type="radio" name="payment" value="cod" checked onchange="selectPayment('pm1')" />
+          💵 เก็บเงินปลายทาง
+        </label>
+        <label class="radio-card" id="pm2">
+          <input type="radio" name="payment" value="transfer" onchange="selectPayment('pm2')" />
+          🏦 โอนเงินธนาคาร
+        </label>
+        <label class="radio-card" id="pm3">
+          <input type="radio" name="payment" value="qr" onchange="selectPayment('pm3')" />
+          📱 พร้อมเพย์ / QR Code
+        </label>
+      </div>
+      <button class="btn-primary btn-block" onclick="placeOrder()">สั่งซื้อเลย 🎉</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <div class="modal-icon">🎊</div>
+      <h2>สั่งซื้อสำเร็จ!</h2>
+      <p>ขอบคุณที่ใช้บริการ Takumi Sushi<br/>ออเดอร์ของคุณกำลังถูกเตรียม</p>
+      <p class="order-id">หมายเลขออเดอร์: <strong id="orderId"></strong></p>
+      <button class="btn-primary" onclick="closeOrderModal()">กลับสู่หน้าหลัก</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: ADMIN LOGIN ===== -->
+<div id="page-admin-login" class="page">
+  <div class="admin-login-wrap">
+    <div class="admin-login-box">
+      <div class="admin-logo">
+        <span class="logo-kanji">管</span>
+        <h2>Admin Panel</h2>
+      </div>
+      <p class="login-hint">demo: admin / takumi2024</p>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="admin-user" placeholder="ชื่อผู้ใช้" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="admin-pass" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')adminLogin()" />
+      </div>
+      <div class="login-error" id="loginError"></div>
+      <button class="btn-primary btn-block" onclick="adminLogin()">เข้าสู่ระบบ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: ADMIN DASHBOARD ===== -->
+<div id="page-admin" class="page">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <span class="logo-kanji">管</span>
+        <span>Admin Panel</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="#" class="admin-nav-item active" onclick="adminTab('menu-list',this)">📋 จัดการเมนู</a>
+        <a href="#" class="admin-nav-item" onclick="adminTab('add-menu',this)">➕ เพิ่มเมนูใหม่</a>
+      </nav>
+      <button class="admin-logout" onclick="adminLogout()">🚪 ออกจากระบบ</button>
+    </aside>
+    <main class="admin-main">
+
+      <!-- Tab: Menu List -->
+      <div id="tab-menu-list" class="admin-tab active">
+        <div class="admin-tab-header">
+          <h2>รายการเมนูทั้งหมด</h2>
+          <span class="menu-count" id="adminMenuCount">0 รายการ</span>
+        </div>
+        <div class="admin-menu-list" id="adminMenuList"></div>
+      </div>
+
+      <!-- Tab: Add/Edit Menu -->
+      <div id="tab-add-menu" class="admin-tab">
+        <div class="admin-tab-header">
+          <h2 id="formTitle">เพิ่มเมนูใหม่</h2>
+        </div>
+        <div class="admin-form">
+          <input type="hidden" id="edit-id" />
+          <div class="form-row">
+            <div class="form-group">
+              <label>ชื่อเมนู (TH)</label>
+              <input type="text" id="menu-name" placeholder="เช่น ซูชิแซลมอน" />
+            </div>
+            <div class="form-group">
+              <label>ชื่อเมนู (JP)</label>
+              <input type="text" id="menu-name-jp" placeholder="เช่น サーモン寿司" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>ราคา (บาท)</label>
+              <input type="number" id="menu-price" placeholder="199" />
+            </div>
+            <div class="form-group">
+              <label>หมวดหมู่</label>
+              <select id="menu-cat">
+                <option value="nigiri">นิกิริ</option>
+                <option value="maki">มากิ</option>
+                <option value="sashimi">ซาชิมิ</option>
+                <option value="special">พิเศษ</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>URL รูปภาพ (emoji ได้)</label>
+            <input type="text" id="menu-img" placeholder="https://... หรือ emoji เช่น 🍣" />
+          </div>
+          <div class="form-group">
+            <label>คำอธิบาย</label>
+            <textarea id="menu-desc" placeholder="รายละเอียดเมนู..." rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="saveMenu()">💾 บันทึก</button>
+            <button class="btn-secondary" onclick="cancelEdit()">ยกเลิก</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" id="mainFooter">
+  <div class="container footer-grid">
+    <div>
+      <div class="footer-logo"><span class="logo-kanji">匠</span> TAKUMI SUSHI</div>
+      <p>ศิลปะแห่งซูชิที่ส่งตรงถึงมือคุณ<br/>ด้วยใจช่างและวัตถุดิบสดจากญี่ปุ่น</p>
+    </div>
+    <div>
+      <h4>ลิงก์ด่วน</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('home')">หน้าแรก</a></li>
+        <li><a href="#" onclick="showPage('menu')">เมนู</a></li>
+        <li><a href="#" onclick="showPage('checkout')">ตะกร้า</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>ติดต่อเรา</h4>
+      <p>📧 jirachaya.rang@bumail.net</p>
+      <p>📧 teerawat.jamn@bumail.net</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Takumi Sushi · 匠寿司 · All Rights Reserved</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
