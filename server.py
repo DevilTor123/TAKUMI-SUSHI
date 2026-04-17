@@ -143,7 +143,12 @@ def init_db():
     print(f"✅ Database initialized: {DB_PATH}")
 
 # ========== UTILITY ==========
+
 @app.route("/")
+def home():
+    return render_template("index.html")
+@app.route("/")
+
 def home():
     return """
     <h1>🍣 TAKUMI SUSHI</h1>
