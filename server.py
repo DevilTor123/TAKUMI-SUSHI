@@ -11,7 +11,7 @@
 ===============================================================
 """
 
-from flask import Flask, jsonify, request, g, render_template
+from flask import Flask, jsonify, request, g
 from flask_cors import CORS
 import sqlite3
 import os
@@ -24,8 +24,6 @@ CORS(app)  # อนุญาต cross-origin requests จาก frontend
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "takumi_sushi.db")
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
 # ========== DATABASE HELPERS ==========
 
