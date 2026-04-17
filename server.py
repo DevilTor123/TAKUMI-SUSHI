@@ -24,6 +24,9 @@ CORS(app)  # อนุญาต cross-origin requests จาก frontend
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "takumi_sushi.db")
 
+if __name__ == "__main__":
+    app.run(debug=True)
+
 # ========== DATABASE HELPERS ==========
 
 def get_db():
