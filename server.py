@@ -153,6 +153,11 @@ def rows_to_list(rows):
     return [dict(r) for r in rows]
 
 # ========== ROUTES: MENU ==========
+from flask import send_from_directory
+
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
 
 @app.route("/api/menu", methods=["GET"])
 def get_menu():
@@ -175,6 +180,9 @@ def get_menu():
     rows = db.execute(query, params).fetchall()
     return jsonify(rows_to_list(rows))
 
+@app.route("/")
+def home():
+    return "TAKUMI SUSHI API is running 🍣"
 
 @app.route("/api/menu/<int:menu_id>", methods=["GET"])
 def get_menu_item(menu_id):
